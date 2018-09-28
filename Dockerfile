@@ -6,9 +6,7 @@ ADD mitmproxy-4.0.4-py3-none-any.whl /home/mitmproxy/mitmproxy-4.0.4-py3-none-an
 
 # Add our user first to make sure the ID get assigned consistently,
 # regardless of whatever dependencies get added.
-RUN addgroup -S mitmproxy && adduser -S -G mitmproxy mitmproxy \
-    && apk add --no-cache \
-        su-exec \
+RUN apk add --no-cache \
         git \
         g++ \
         libffi \
@@ -27,11 +25,10 @@ RUN addgroup -S mitmproxy && adduser -S -G mitmproxy mitmproxy \
         openssl-dev \
         python3-dev \
     && rm -rf ~/.cache/pip /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl \
-    && mkdir -p /home/mitmproxy/.mitmproxy \
-    && chown -R mitmproxy:mitmproxy /home/mitmproxy/.mitmproxy
+    && mkdir -p /home/mitmproxy/.mitmproxy
 
 VOLUME /home/mitmproxy/.mitmproxy
 
 EXPOSE 8080
 
-CMD su-exec mitmdump -s /home/rule/test.py
+CMD mitmdump -s /home/rule/test.py
