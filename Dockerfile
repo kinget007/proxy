@@ -34,4 +34,4 @@ VOLUME /home/mitmproxy/.mitmproxy
 
 EXPOSE 8080
 
-CMD mitmdump -s /home/rule/test.py
+CMD su-exec mitmdump -s /home/rule/test.py
