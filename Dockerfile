@@ -28,6 +28,7 @@ RUN apk add --no-cache \
     && mkdir -p /home/mitmproxy/.mitmproxy
 
 VOLUME /home/mitmproxy/.mitmproxy
+RUN cd /home && ls
 
 EXPOSE 8080
 
