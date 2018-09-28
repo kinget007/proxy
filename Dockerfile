@@ -1,8 +1,14 @@
-FROM python:alpine3.7
-WORKDIR /home/rule/
+FROM alpine:3.8
+ENV LANG=en_US.UTF-8
+
 ADD test.py /home/rule/test.py
 ADD mitmproxy-4.0.4-py3-none-any.whl /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl
-RUN apk add --no-cache \
+
+# Add our user first to make sure the ID get assigned consistently,
+# regardless of whatever dependencies get added.
+RUN addgroup -S mitmproxy && adduser -S -G mitmproxy mitmproxy \
+    && apk add --no-cache \
+        su-exec \
         git \
         g++ \
         libffi \
@@ -10,17 +16,22 @@ RUN apk add --no-cache \
         libstdc++ \
         openssl \
         openssl-dev \
-    && pip3 install -U /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl \
-	&& apk del --purge \
-		git \
+        python3 \
+        python3-dev \
+    && python3 -m ensurepip \
+    && LDFLAGS=-L/lib pip3 install -U /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl \
+    && apk del --purge \
+        git \
         g++ \
         libffi-dev \
         openssl-dev \
         python3-dev \
     && rm -rf ~/.cache/pip /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl \
-    && mkdir -p /home/mitmproxy/.mitmproxy
+    && mkdir -p /home/mitmproxy/.mitmproxy \
+    && chown -R mitmproxy:mitmproxy /home/mitmproxy/.mitmproxy
 
 VOLUME /home/mitmproxy/.mitmproxy
-#RUN pip3 install -I -i https://pypi.mirrors.ustc.edu.cn/simple/ mitmproxy --trusted-host pypi.mirrors.ustc.edu.cn
+
 EXPOSE 8080
+
 CMD mitmdump -s /home/rule/test.py
