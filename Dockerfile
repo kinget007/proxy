@@ -27,7 +27,7 @@ RUN apk add --no-cache \
     && rm -rf ~/.cache/pip /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl \
     && mkdir -p /home/mitmproxy/.mitmproxy
 
-VOLUME /home/mitmproxy/.mitmproxy
+VOLUME ~/.mitmproxy
 RUN cd /home && ls
 
 EXPOSE 8080
