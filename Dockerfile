@@ -1,6 +1,7 @@
 FROM alpine:3.8
 ENV LANG=en_US.UTF-8
 
+ADD log.log /home/log/log.log
 ADD test.py /home/rule/test.py
 ADD mitmproxy-4.0.4-py3-none-any.whl /home/mitmproxy/mitmproxy-4.0.4-py3-none-any.whl
 
@@ -28,6 +29,7 @@ RUN apk add --no-cache \
     && mkdir -p /home/mitmproxy/.mitmproxy
 
 VOLUME /root/.mitmproxy
+VOLUME /home/log/log.log
 
 EXPOSE 8080
 
