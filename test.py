@@ -24,7 +24,7 @@ class Counter:
                 "method": str(flow.request.method),
                 "query": urllib.parse.unquote(str(flow.request.query).replace("\\x", "%"), encoding='utf-8',
                                               errors='replace'),
-                "post data": urllib.parse.unquote(str(flow.request.raw_content).replace("\\x", "%"),
+                "post_data": urllib.parse.unquote(str(flow.request.raw_content).replace("\\x", "%"),
                                                   encoding='utf-8',
                                                   errors='replace'),
                 "HJ_UID": str(flow.request.cookies.get('HJ_UID')),
