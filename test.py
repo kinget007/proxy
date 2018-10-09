@@ -18,6 +18,7 @@ class Counter:
             "hujiang") > -1):
             ctx.log.info("--------------------------------------------------------------------------------------")
             self.num = self.num + 1
+            timestamp_ = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             result = {
                 "num": self.num,
                 "url": flow.request.pretty_url,
@@ -28,7 +29,7 @@ class Counter:
                                                   encoding='utf-8',
                                                   errors='replace'),
                 "HJ_UID": str(flow.request.cookies.get('HJ_UID')),
-                "time": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                "time": timestamp_
             }
 
             import os
