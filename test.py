@@ -13,9 +13,8 @@ class Counter:
     def request(self, flow: mitmproxy.http.HTTPFlow):
         if flow.request.host == 'www.google.com':
             return
-        if flow.request.path.find(".") == -1 and flow.request.path.find("track") == -1 and (
-                flow.request.host.find("yeshj") > -1 or flow.request.host.find(
-            "hujiang") > -1):
+        # if flow.request.path.find(".") == -1 and flow.request.path.find("track") == -1 and (flow.request.host.find("yeshj") > -1 or flow.request.host.find("hujiang") > -1):
+        else:
             ctx.log.info("--------------------------------------------------------------------------------------")
             self.num = self.num + 1
             timestamp_ = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -28,7 +27,7 @@ class Counter:
                 "post_data": urllib.parse.unquote(str(flow.request.raw_content).replace("\\x", "%"),
                                                   encoding='utf-8',
                                                   errors='replace'),
-                "HJ_UID": str(flow.request.cookies.get('HJ_UID')),
+                # "HJ_UID": str(flow.request.cookies.get('HJ_UID')),
                 "time": timestamp_
             }
 
